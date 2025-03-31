@@ -1,6 +1,9 @@
 import numpy as np
 
 class Points:
+    """
+        This class gathers all experimental points for each available system.
+    """
 
     def __int__(self):
         pass

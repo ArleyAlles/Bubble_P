@@ -11,6 +11,8 @@ class PengRobinson:
         - Volume: Molar volume calculation for a specific phase in a multi-component system
         - phi: Coefficient fugacity (phi) for a multi-component system
 
+    OBS: the methods: dPdro; d2Pdro2; pressure; Newton and Bissection are auxiliary methods for Volume
+
     """
 
     def __init__(self, P, T, R, Tc, Pc, w, Kij):

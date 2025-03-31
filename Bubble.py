@@ -5,11 +5,11 @@ from tabulate import tabulate
 
 class Bubble_Point:
     """
-    * Calculation of saturation points (bubble points) of mixtures using ϕ-ϕ approach.
+    * Calculation of saturation point (bubble point) of mixtures using ϕ-ϕ approach.
     In this class the following methods are present:
 
-        - Ki: Equilibrium constant
-        - bubble_P: Bubble point pressure
+        - Ki: Equilibrium constant calculation
+        - bubble_P: Bubble point pressure and molar vapor fraction
     """
 
     def __init__(self, T, X, R, Tc, Pc, w, Kij, Psat, tol, n_ite):
@@ -25,7 +25,13 @@ class Bubble_Point:
         self.n_ite = n_ite
 
     def Ki(self, P, x, y):
-
+        """
+        ECalculation of equilibrium constant for liquid and vapor phases
+        :param P: Pressure of system [float]
+        :param x: Molar liquid fraction [array - float]
+        :param y: Molar vapor fraction [array - float]
+        :return: Equilibrium constant [array - float]
+        """
         Eos    = PengRobinson(P, self.T, self.R, self.Tc, self.Pc, self.w, self.Kij)
         Vol_l  = Eos.Volume(x, phase=1)
         Vol_v  = Eos.Volume(y, phase=0)
@@ -35,7 +41,12 @@ class Bubble_Point:
         return Ki
 
     def bubble_P(self):
+        """
+        Saturation point calculation
+        :return: Pressure and molar vapor fraction
+        """
 
+        print(f'\n############# Initialization of calculations ##############\n')
         P_out = np.zeros(len(self.X))
         y_out = np.zeros(len(self.X))
 
