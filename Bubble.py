@@ -79,6 +79,17 @@ class Bubble_Point:
 
         return P_out,y_out
 
+    def AARD(self, P_exp, y_exp):
+
+        P_calc, y_calc = self.bubble_P()
+        AARD_P = (100/len(P_exp))*np.sum(abs(P_exp-P_calc)/P_exp)
+        AARD_y = (100/len(y_exp))*np.sum(abs(y_exp-y_calc)/y_exp)
+
+        print(f'The Average Absolute Relative Deviation (AARD-%) for pressure is: {round(AARD_P,2)}\n')
+        print(f'The Average Absolute Relative Deviation (AARD-%) for liquid molar fraction is: {round(AARD_y, 2)}\n')
+        print(f'The Average Absolute Relative Deviation for both is: {round(AARD_P+AARD_y,2)}')
+
+
 
 
 
