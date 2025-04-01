@@ -1,6 +1,6 @@
 import numpy as np
 
-class Exp_output():
+class Exp_output:
 
     def __init__(self):
         pass

@@ -96,33 +96,15 @@ class PengRobinson:
         f = f1 - f2
         return f
 
-    def Newton(self, f, df, P_spe, s, a, b):
+    @staticmethod
+    def Bissection(f, a, b, P_spe, ro_min, ro_max):
 
-        erro = 1
-        tol = 1e-8
-        xo = 1 / b
-        while True:
-            x = xo - s * (f(xo, a, b) - P_spe) / df(xo, a, b)
-            erro = abs(x - xo) / x
-
-            if erro < tol:
-                return x
-                break
-
-            else:
-                xo = x
-
-    def Bissection(self, f, a, b, P_spe, ro_min, ro_max):
-
-        erro = 1
         tol = 1e-6
 
         while True:
-            # print(i)
             xr = (ro_min + ro_max) / 2
             f_min = f(ro_min, a, b) - P_spe
             f_r = f(xr, a, b) - P_spe
-            # print(f'f_min:{f_min},f_r:{f_r}')
             if (f_min * f_r) < 0:
                 ro_max = xr
 
@@ -130,15 +112,16 @@ class PengRobinson:
                 ro_min = xr
 
             erro = f(xr, a, b) - P_spe
-            # print(f'Erro:{erro} ----> xr:{xr}')
             if abs(erro) < tol:
                 return xr
-                break
+
 
     def Volume(self, x, phase):
 
+        global ro
         a, b, _, _ = self.mixture_rule(x)
         P_spe = self.P
+
 
         # Identify if condition belongs to curve C and find the root
         if self.d2Pdro2(0, a, b) > 0:
@@ -165,7 +148,7 @@ class PengRobinson:
                 ro_max = self.Bissection(self.dPdro, a, b, 0, 0, ro_cc)
                 ro_min = self.Bissection(self.dPdro, a, b, 0, ro_cc, 1 / b)
 
-                if P_spe < self.pressure(ro_max, a, b) and P_spe > self.pressure(ro_min, a, b):
+                if self.pressure(ro_max, a, b) > P_spe > self.pressure(ro_min, a, b):
                     if phase == 0:  # Vapor
                         ro = self.Bissection(self.pressure, a, b, P_spe, 0, ro_max)
                     elif phase == 1:  # Liquid

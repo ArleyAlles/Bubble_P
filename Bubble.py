@@ -58,7 +58,7 @@ class Bubble_Point:
             Ki  = self.Ki(P, x, y)
             ite = 0
 
-            while(True):
+            while True:
                 ite   += 1
                 Ki_old = Ki
                 P      = P*sum(Ki*x)
